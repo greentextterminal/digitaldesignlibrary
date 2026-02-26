@@ -8,7 +8,7 @@ module tb;
     $dumpvars(0, tb);
     
     // oscillate the clock
-    clk = 1;
+    clk = 0;
     forever begin
       #1;
       clk = ~clk;
