@@ -22,39 +22,23 @@ parameter N = 2;
          
 // count variable to hold up to N
 reg [($clog2(N)-1):0] count; 
-// reg var for procedural assignment
-reg div_clk = 1;
-// direction flag to count up or down
-reg direction; // 1 = up, 0 = down
+// level flag to indicate whether the divided clock is high or low
+reg div_clk; // 1 = high, 0 = low
 
-// synchronous reset block
 always @ (posedge clk) begin
+  // synchronous reset block
   if (rst) begin
     count     <= 1;
     div_clk   <= 1;
-    direction <= 1;
   end
-end
-
-// clocked direction toggle block
-always @ (posedge clk) begin
-  if (count == N) begin
-    direction <= 0; // N reached, count down
+  // counter rollover
+  else if (count == N) begin
+    count   <= 1; // reset count to 1
+    div_clk <= !div_clk;
   end
-  else if (count == 0) begin
-    direction <= 1; // 0 reached, count up
-  end
-end
-
-// count direction logic
-always @ (posedge clk) begin
-  if (direction) begin
-    count   <= count + 1;
-    div_clk <= 1;
-  end
-  else if (!direction) begin
-    count   <= count - 1;
-    div_clk <= 0;
+  else begin
+    count   <= count + 1; // increment the count
+    div_clk <= div_clk;
   end
 end
 
