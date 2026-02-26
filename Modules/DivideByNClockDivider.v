@@ -15,16 +15,26 @@ count
 
 module divide_clock_by_N (
   input  clk,
+  input	 rst,
   output divided_clk
 );
 parameter N = 2;
          
-// count variable to hold up to N (
-reg [($clog2(N)-1):0] count = 1; 
-// reg var for procedural assignment (initialize the output to 1)
+// count variable to hold up to N
+reg [($clog2(N)-1):0] count; 
+// reg var for procedural assignment
 reg div_clk = 1;
-// direction flag to count up or down (initialize to 1 to count up)
-reg direction = 1; // 1 = up, 0 = down
+// direction flag to count up or down
+reg direction; // 1 = up, 0 = down
+
+// synchronous reset block
+always @ (posedge clk) begin
+  if (rst) begin
+    count     <= 1;
+    div_clk   <= 1;
+    direction <= 1;
+  end
+end
 
 // clocked direction toggle block
 always @ (posedge clk) begin
