@@ -28,7 +28,7 @@ reg div_clk; // 1 = high, 0 = low
 always @ (posedge clk) begin
   // synchronous reset block
   if (rst) begin
-    count     <= 1;
+    count     <= 0;
     div_clk   <= 1;
   end
   // counter rollover
