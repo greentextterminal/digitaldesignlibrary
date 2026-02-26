@@ -17,37 +17,37 @@ module divide_clock_by_N (
   input  clk,
   output divided_clk
 );
-  parameter N = 2;
+parameter N = 2;
+         
+// count variable to hold up to N (
+reg [($clog2(N)-1):0] count = 1; 
+// reg var for procedural assignment (initialize the output to 1)
+reg div_clk = 1;
+// direction flag to count up or down (initialize to 1 to count up)
+reg direction = 1; // 1 = up, 0 = down
 
-  // count variable to hold up to N=15 (can be adjusted for more division)
-  reg [3:0] count = 1; 
-  // reg var for procedural assignment
-  reg div_clk = 1;
-  // direction flag to count up or down
-  reg direction = 1; // 1 = up, 0 = down
-
-  // clocked direction toggle block
-  always @ (posedge clk) begin
-    if (count == N) begin
-      direction <= 0; // N reached, count down
-    end
-    else if count (count == 0) begin
-      direction <= 1; // 0 reached, count up
-    end
+// clocked direction toggle block
+always @ (posedge clk) begin
+  if (count == N) begin
+    direction <= 0; // N reached, count down
   end
-
-  always @ (posedge clk) begin
-    // count direction logic
-    if (direction) begin
-      count   <= count + 1;
-      div_clk <= 1;
-    end
-    else if (!direction) begin
-      count   <= count - 1;
-      div_clk <= 0;
-    end
+  else if (count == 0) begin
+    direction <= 1; // 0 reached, count up
   end
+end
 
-  // assign the divided clock to the output
-  assign divided_clk = div_clk;
+// count direction logic
+always @ (posedge clk) begin
+  if (direction) begin
+    count   <= count + 1;
+    div_clk <= 1;
+  end
+  else if (!direction) begin
+    count   <= count - 1;
+    div_clk <= 0;
+  end
+end
+
+// assign the divided clock to the output
+assign divided_clk = div_clk;
 endmodule
