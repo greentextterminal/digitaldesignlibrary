@@ -9,7 +9,7 @@ module tb;
     $dumpvars(0, tb);
     
     // oscillate the clock
-	  clk = 0;
+	clk = 0;
     forever begin
       #1;
       clk = ~clk;
@@ -25,7 +25,7 @@ module tb;
   
   // specify a duration 
   initial begin
-    #20;// wait for 20 time units
+    #40;// wait for 40 time units
     $finish;
   end
   
