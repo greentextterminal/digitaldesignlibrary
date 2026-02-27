@@ -18,10 +18,19 @@ module divide_clock_by_N (
   input	 rst,
   output divided_clk
 );
-parameter N = 2;
-         
+parameter  N = 2;
+
+/*
+determining the registers needed using $clog2 changes depending on whether N is even or odd 
+if N = 5 -> clog(2) = 3 -> [(3-1):0] -> [2:0] -> 3'b101
+if N = 8 -> clog(2) = 3 -> [3:0] -> 4'b1000
+We can see that for odd N's we need to subtract 1 and for even N's we can use the value computed by $clog2 directly
+*/
+
+// determines whether or not a bit adjustment needs to be made
+localparam subtractor = (N % 2 == 0) ? 0 : 1;
 // count variable to hold up to N
-reg [($clog2(N)-1):0] count; 
+reg [($clog2(N) - subtractor):0] count; 
 // level flag to indicate whether the divided clock is high or low
 reg div_clk; // 1 = high, 0 = low
 
