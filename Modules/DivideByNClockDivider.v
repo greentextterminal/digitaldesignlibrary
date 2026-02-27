@@ -5,11 +5,13 @@ Dividing a clock frequency by 2 is multiplying the period 2.
 Therefore in one clock period of the divided by 2 clock you can find 2 positive edges of the input clock
          ___   ___   ___   ___
 clk    __|  |__|  |__|  |__|  |__
+                     |<-T1>|
          ______      ______
 divclk __|     |_____|     |_____
 
-         ^     ^
-posedge  1     2
+         ^     ^     |<---T2--->|
+clk      1     2
+posedge 
 count
 */
 
