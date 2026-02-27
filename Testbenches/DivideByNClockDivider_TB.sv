@@ -17,7 +17,7 @@ module tb;
     $dumpvars(0, tb);
     
     // oscillate the clock
-	  clk = 0;
+	clk = 0;
     forever begin
       #1;         // 1 time unit of delay
       clk = ~clk; // invert clk signal every 1 time unit
