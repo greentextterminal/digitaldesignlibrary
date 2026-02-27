@@ -15,12 +15,14 @@ posedge
 count
 */
 
-module divide_clock_by_N (
+module divide_clock_by_N #(
+  parameter N = 2; // set to anything >=2
+)
+(
   input  clk,
   input	 rst,
   output divided_clk
 );
-parameter N = 2; // set to anything >=2
 
 /*
 determining the registers needed using $clog2 changes depending on whether N is even or odd 
