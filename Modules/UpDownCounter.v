@@ -21,7 +21,7 @@ module UpDownCounter #(
   reg [WIDTH - 1:0] count;
 
   // async reset clears or resets the load value based on the direction
-  always @ (posedge clk or posedge rst) begin
+  always @ (posedge clk) begin
     // control logic if, if else chain (rst, enable, flag logic)
     if ((rst) && (direction)) begin 
       count <= 0; // reset count with 0
