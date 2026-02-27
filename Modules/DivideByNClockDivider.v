@@ -20,7 +20,7 @@ module divide_clock_by_N (
   input	 rst,
   output divided_clk
 );
-parameter  N = 2;
+parameter N = 2; // set to anything >=2
 
 /*
 determining the registers needed using $clog2 changes depending on whether N is even or odd 
