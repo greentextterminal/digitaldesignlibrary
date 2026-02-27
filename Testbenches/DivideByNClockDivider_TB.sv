@@ -25,11 +25,11 @@ module tb;
   
   // specify a duration 
   initial begin
-    #40;// wait for 40 time units
+    #50;// wait for 50 time units
     $finish;
   end
   
-  // DUT (Set N parameter to anything 1+)
+  // DUT (Set N parameter to anything >=2)
   divide_clock_by_N #(.N(3)) dut (
     .clk(clk),
     .rst(rst),
