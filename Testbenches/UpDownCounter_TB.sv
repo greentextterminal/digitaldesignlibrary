@@ -4,7 +4,7 @@ UpDownCounter Testbench
 
 module tb;
   // set this param in the tb to drive the DUT and the bit widths
-  localparam WIDTH = 8;
+  localparam WIDTH = 3;
   
   reg clk, rst, enable, direction;
   reg [WIDTH-1:0] load;
@@ -20,12 +20,6 @@ module tb;
     .flag(flag)
   );
 
-  // initialize inputs
-  initial clk = 0;
-  initial rst = 0;
-  initial enable = 0;
-  initial direction = 0;
-
   // creating the clock signal
   initial begin
     // dump waves
@@ -39,22 +33,23 @@ module tb;
     end
   end
 
-  // hold reset then release
+  // stimulus
   initial begin
-  	rst = 1;
-    #3;
-    rst = 0;
-  end
+    // initialize inputs
+    clk       = 0;
+    rst       = 0;
+    enable    = 0;
+    direction = 0;
 
-  // load and count up
-  initial begin
-    #3;
-      
-  end
-  
-  // specify a duration 
-  initial begin
-    #100; // wait for 50 time units
+    // load and count up
+    rst = 1;
+    direction = 1;
+    enable = 1;
+    #5;
+    rst = 0;
+
+    // specify a duration 
+    #100; // wait for 100 time units
     $finish;
   end
   
