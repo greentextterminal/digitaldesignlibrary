@@ -1,8 +1,10 @@
 /*
 This counter can be set to count up or count down
-If the counter is set to count up then counts from 0 to WIDTH
-If the counter is set to count down then counts from WIDTH to 0
-When enable is deasserted the counter pauses, else it continues
+If the counter is set to count up then it counts up from 0 to load
+If the counter is set to count down then it counts down from load to 0
+The WIDTH parameter is used to set the register width for storing the count
+When enable is asserted the counter counts up or down
+When enable is deasserted the counter is paused
 */
 
 module UpDownCounter #(
@@ -20,7 +22,7 @@ module UpDownCounter #(
   // internal reg
   reg [WIDTH - 1:0] count;
 
-  // async reset clears or resets the load value based on the direction
+  // sync reset clears or resets the load value based on the direction
   always @ (posedge clk) begin
     // control logic if, if else chain (rst, enable, flag logic)
     if ((rst) && (direction)) begin 
