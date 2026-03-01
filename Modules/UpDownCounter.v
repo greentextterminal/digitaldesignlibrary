@@ -24,44 +24,45 @@ module UpDownCounter #(
 
   // sync reset clears or resets the load value based on the direction
   always @ (posedge clk) begin
-    // control logic if, if else chain (rst, enable, flag logic)
-    if ((rst) && (direction)) begin 
-      count <= 0; // reset count with 0
-      flag  <= 0; // reset flag
+    // default flag value
+    flag <= 0;
+    // reset block
+    if (rst) begin
+      if (direction) begin 
+        count <= 0; // reset count with 0
+      end
+      else if (!direction) begin
+        count <= load; // reset count with load
+      end
     end
-    else if ((rst) && (!direction)) begin
-      count <= load; // reset count with load
-      flag  <= 0;    // reset flag
+    // enabled count block
+    else if (enable) begin
+      if (direction) begin
+        // if max count reached while counting up assert flag and reset count to 0
+        if (count == load) begin
+          count <= 0;
+          flag  <= 1;
+        end
+        // increment the counter if direction is counting up
+        else begin
+          count <= count + 1;
+        end
+      end
+      else if (!direction) begin
+        // if count is 0 assert flag var and reset count to load
+        if (count == 0) begin
+          count <= load;
+          flag  <= 1;
+        end
+        // decrement the counter if direction is counting down
+        else begin
+          count <= count - 1;
+        end
+      end
     end
-    else if (!enable) begin
     // hold the count if not enabled
-      count <= count;
-    end  
-    else if ((direction) && (count == load)) begin
-      // if max count reached while counting up assert flag and reset count to 0
-      count <= 0;
-      flag  <= 1;
-    end
-    else if ((!direction) && (count == 0)) begin
-    // if count is 0 assert flag var and reset count to load
-      count <= load;
-      flag  <= 1;
-    end
-    // counter else if chain
-    else if (direction) begin
-      // increment the counter if direction is counting up
-      count <= count + 1;
-      flag  <= 0;
-    end
-    else if (!direction) begin
-      // decrement the counter if direction is counting down
-      count <= count - 1;
-      flag  <= 0;
-    end
-    else begin
-      // default
-      flag  <= 0;
-      count <= 0;
+    else if (!enable) begin
+      count <= count; 
     end 
   end
 endmodule
