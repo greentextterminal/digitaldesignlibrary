@@ -33,6 +33,7 @@ module tb;
       repeat (num_clocks) @ (posedge clk);
       rst = 0;
     end
+  endtask
 
   // Creating a DUT reset for down counting
   task down_reset(input integer num_clocks);
@@ -43,28 +44,31 @@ module tb;
       repeat (num_clocks) @ (posedge clk);
       rst = 0;
     end 
+  endtask
     
   // Creating an up count task
-  task up_count(input [WIDTH-1:0] load, 
+  task up_count(input [WIDTH-1:0] test_load, 
                 input integer num_clocks);
     begin
       enable = 1;
-      load = load;
+      load = test_load;
       direction = 1;
       repeat (num_clocks) @ (posedge clk);
       enable = 0;
     end
+  endtask
   
   // Creating a down count task
-  task down_count(input [WIDTH-1:0] load, 
+  task down_count(input [WIDTH-1:0] test_load, 
                   input integer num_clocks);
     begin
       enable = 1;
-      load = load;
+      load = test_load;
       direction = 0;
       repeat (num_clocks) @ (posedge clk);
       enable = 0;
     end
+  endtask
     
   // creating the clock signal
   initial begin
