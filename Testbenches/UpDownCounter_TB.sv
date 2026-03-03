@@ -3,7 +3,7 @@ UpDownCounter Testbench
 */
 
 // timescale <time_unit> / <time_precision>
-`timescale 1ns/1ns
+`timescale 1ns/1ps
 
 module tb;
   // set this param in the tb to drive the DUT and the bit widths
@@ -30,6 +30,7 @@ module tb;
       rst = 0;
       enable = 0;
       direction = 0;
+      load = 0;
       repeat (num_clocks) @ (posedge clk);
     end
   endtask
@@ -60,10 +61,13 @@ module tb;
   task up_count(input [WIDTH-1:0] test_load, 
                 input integer num_clocks);
     begin
+      @(posedge clk);  // Wait for the edge
+      #0.1;            // Nudge slightly past the edge
       enable    = 1;
       load      = test_load;
       direction = 1;
       repeat (num_clocks) @ (posedge clk);
+      #0.1;
       enable    = 0;
     end
   endtask
@@ -72,10 +76,13 @@ module tb;
   task down_count(input [WIDTH-1:0] test_load, 
                   input integer num_clocks);
     begin
+      @(posedge clk);  // Wait for the edge
+      #0.1;            // Nudge slightly past the edge
       enable    = 1;
       load      = test_load;
       direction = 0;
       repeat (num_clocks) @ (posedge clk);
+      #0.1;
       enable    = 0;
     end
   endtask
