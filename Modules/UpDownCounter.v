@@ -60,7 +60,7 @@ module UpDownCounter #(
       end
       // decrement the counter if direction is down
       else if (!direction) begin
-        // reset count to load if 0 is reached
+        // reset count to (load - 1) if 0 is reached
         if (count == 0) begin
           count <= (load - 1);
         end
