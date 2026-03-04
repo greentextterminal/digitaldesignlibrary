@@ -54,7 +54,7 @@ module UpDownCounter #(
           count <= count + 1;
           // count look ahead to raise the flag during the same clock edge as count == (load - 1)
           if (count == (load - 2)) begin
-            flag <= 1;
+                 flag <= 1; // when the count matches the conditional the logic will trigger (during same CC)
           end
         end
       end
@@ -68,7 +68,7 @@ module UpDownCounter #(
           count <= count - 1;
           // count look ahead to raise the flag during the same clock edge as count == 0
           if (count == (0 + 1)) begin
-            flag  <= 1;
+            flag <= 1; // when the count matches the conditional the logic will trigger (during same CC)
           end
         end
       end
