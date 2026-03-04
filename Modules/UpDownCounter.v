@@ -7,7 +7,7 @@ When enable is asserted the counter counts up or down
 When enable is deasserted the counter is paused
 
 This counter counts 'load' number of times
-@ load = 4, direction = 1
+Ex: @ load = 4, direction = 1
 flag:  0    0    0    1    0
 count: 0 -> 1 -> 2 -> 3 -> 0 -> ...
        ^    ^    ^    ^
