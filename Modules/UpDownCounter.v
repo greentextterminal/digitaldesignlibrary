@@ -11,7 +11,7 @@ Ex: @ load = 4, direction = 1
 flag:  0    0    0    1    0
 count: 0 -> 1 -> 2 -> 3 -> 0 -> ...
        ^    ^    ^    ^
-      CC1  CC2  CC3  CC4 }-> total of 4 CC's 
+      CC1  CC2  CC3  CC4 }-> total of 4 CC's == (load = 4)
 */
 
 module UpDownCounter #(
