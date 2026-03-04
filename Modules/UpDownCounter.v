@@ -5,6 +5,13 @@ If the counter is set to count down then it counts down from load to 0
 The WIDTH parameter is used to set the register width for storing the count
 When enable is asserted the counter counts up or down
 When enable is deasserted the counter is paused
+
+This counter counts 'load' number of times
+@ load = 4, direction = 1
+flag:  0    0    0    1    0
+count: 0 -> 1 -> 2 -> 3 -> 0 -> ...
+       ^    ^    ^    ^
+      CC1  CC2  CC3  CC4 }-> total of 4 CC's 
 */
 
 module UpDownCounter #(
@@ -32,34 +39,40 @@ module UpDownCounter #(
         count <= 0; // reset count with 0
       end
       else if (!direction) begin
-        count <= load; // reset count with load
+        count <= (load - 1); // reset count with (load - 1)
       end
     end
     // enabled count block
     else if (enable) begin
+      // increment the counter if direction is up
       if (direction) begin
-        // if max count reached while counting up assert flag and reset count to 0
-        if (count == load) begin
+        // reset count to 0 if (load-1) is reached
+        if (count == (load - 1)) begin
           count <= 0;
-          flag  <= 1;
         end
-        // increment the counter if direction is counting up
         else begin
           count <= count + 1;
+          // count look ahead to raise the flag during the same clock edge as count == (load - 1)
+          if (count == (load - 2)) begin
+            flag <= 1;
+          end
         end
       end
+      // decrement the counter if direction is down
       else if (!direction) begin
-        // if count is 0 assert flag var and reset count to load
+        // reset count to load if 0 is reached
         if (count == 0) begin
-          count <= load;
-          flag  <= 1;
+          count <= (load - 1);
         end
-        // decrement the counter if direction is counting down
         else begin
           count <= count - 1;
+          // count look ahead to raise the flag during the same clock edge as count == 0
+          if (count == (0 + 1)) begin
+            flag  <= 1;
+          end
         end
       end
-    end
+    end // end of if (enable) block
     // hold the count if not enabled
     else if (!enable) begin
       count <= count; 
