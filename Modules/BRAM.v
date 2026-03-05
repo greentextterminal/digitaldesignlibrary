@@ -37,9 +37,7 @@ module BRAM #(
       mem[write_address] <= data_in;
     end
     // reading from the memory
-    else begin
-      data <= mem[read_address];
-    end
+    data <= mem[read_address];
   end
 
   // assigning the data read to the output
