@@ -19,8 +19,7 @@ data_out <--/-- |__________|  _|
 module BRAM #(
   parameter WIDTH, // data width
   parameter DEPTH  // data depth (number of entries)
-)
-(
+)(
   input  clk,
   input  write_enable,
   input  [WIDTH-1:0] write_address,
