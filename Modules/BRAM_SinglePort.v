@@ -14,6 +14,11 @@ r_addr   --/--> | X Width  |  DEPTH
 w_en     -----> | Z Depth  |   |
 data_out <--/-- |__________|  _|
 
+WIDTH: indicated in bits (EX: WIDTH = 32 is a 32 bit wide data entry)
+DEPTH: indicated in the number of addresses needed (use $clog2 to get the number of registers needed)
+
+TOTAL BRAM MEM = WIDTH * DEPTH
+
 */
 
 module BRAM #(
