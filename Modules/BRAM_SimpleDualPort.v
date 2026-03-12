@@ -15,23 +15,24 @@ w_en     -----> | Z Depth  |   |
 data_out <--/-- |__________|  _|
 
 WIDTH: indicated in bits (EX: WIDTH = 32 is a 32 bit wide data entry)
-DEPTH: indicated in the number of addresses needed (use $clog2 to get the number of registers needed)
-
+DEPTH: indicated in the number of addresses needed for indexing
 TOTAL BRAM MEM = WIDTH * DEPTH
 
+This BRAM is a simple dual port due to it having an independent read and write addresses as opposed to one shared address for R/W
 */
 
 module BRAM #(
-  parameter WIDTH, // data width
-  parameter DEPTH  // data depth (number of entries)
+  parameter WIDTH = 16, // data width
+  parameter DEPTH = 128 // data depth (number of entries)
 )(
   input  clk,
   input  write_enable,
-  input  [WIDTH-1:0] write_address,
-  input  [WIDTH-1:0] read_address,
-  input  [WIDTH-1:0] data_in,
-  output [WIDTH-1:0] data_out
+  input  [$clog2(DEPTH)-1:0] write_address,
+  input  [$clog2(DEPTH)-1:0] read_address,
+  input  [WIDTH-1:0]         data_in,
+  output [WIDTH-1:0]         data_out
 );
+  
   // creating the memory construct
   reg [WIDTH-1:0] mem [DEPTH-1:0];
   reg [WIDTH-1:0] data;
