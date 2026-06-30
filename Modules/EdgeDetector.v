@@ -37,7 +37,7 @@ module edge_detector #(
   reg edge_detect, rst_dly, signal_dly; // edge_detect is part of a case statement
 
   // creating a rst delay to prevent erroneous coming out of reset edge detections (RE and AE cases)
-  always @ (posedge clk or posedge rst) begin
+  always @ (posedge clk) begin
     if (rst)
       rst_dly <= 1'b1;
     else
